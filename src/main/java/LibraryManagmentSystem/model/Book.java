@@ -1,10 +1,13 @@
 package LibraryManagmentSystem.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Component;
 
 @Component
+@Entity
 public class Book {
-    static int count=0;
+    @Id
     private int bookid;
     private String bookname;
     private String title;
@@ -12,8 +15,8 @@ public class Book {
     public Book() {
     }
 
-    public Book(String bookname, String title,boolean available) {
-        this.bookid = ++count;
+    public Book(int bookid,String bookname, String title,boolean available) {
+        this.bookid = bookid;
         this.bookname = bookname;
         this.title = title;
         this.available=available;
