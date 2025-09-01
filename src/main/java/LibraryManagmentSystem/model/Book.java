@@ -1,12 +1,15 @@
 package LibraryManagmentSystem.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
 public class Book {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int bookid;
     private String bookname;
@@ -15,8 +18,8 @@ public class Book {
     public Book() {
     }
 
-    public Book(int bookid,String bookname, String title,boolean available) {
-        this.bookid = bookid;
+    public Book(String bookname, String title,boolean available) {
+
         this.bookname = bookname;
         this.title = title;
         this.available=available;

@@ -1,5 +1,7 @@
 package LibraryManagmentSystem.service;
 
+import LibraryManagmentSystem.DTO.BookRequest;
+import LibraryManagmentSystem.DTO.BookResponse;
 import LibraryManagmentSystem.model.Book;
 import LibraryManagmentSystem.repo.Bookrepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,30 @@ public class librarianS {
     List<Book> l=new ArrayList<>();
 
 
-    public void addBook(Book book) {
+    public void addBook(BookRequest bookRequest) {
+
+        Book book=new Book();
+        book.setBookname(bookRequest.getBookname());
+        book.setTitle(bookRequest.getTitle());
+        book.setAvailable(bookRequest.isAvailable());
 
         bookrepo.save(book);
+
     }
 
-    public List<Book> getAllBook() {
+    public List<BookResponse> getAllBook() {
 
-        return bookrepo.findAll();
+       List<Book>book=bookrepo.findAll();
+       List<BookResponse> bookResponses   =new ArrayList<>();
+       for(Book b:book)
+       {
+           BookResponse br=new BookResponse();
+           br.setBookname(b.getBookname());
+           br.setTitle(b.getTitle());
+           br.setAvailable(b.isAvailable());
+           bookResponses.add(br);
+       }
+       return bookResponses;
     }
 
 

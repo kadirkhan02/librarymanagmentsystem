@@ -1,5 +1,7 @@
 package LibraryManagmentSystem.controller;
 
+import LibraryManagmentSystem.DTO.BookRequest;
+import LibraryManagmentSystem.DTO.BookResponse;
 import LibraryManagmentSystem.model.Book;
 import LibraryManagmentSystem.service.librarianS;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +19,20 @@ public class librarianC {
     librarianS service;
 
     @PostMapping
-    public ResponseEntity<String> addBook(@RequestBody Book book){
-        service.addBook(book);
+    public ResponseEntity<String> addBook(@RequestBody BookRequest bookReq){
+        service.addBook(bookReq);
         return ResponseEntity.ok("Successfully Posted");
     }
     @GetMapping
-    public List<Book> getAllBook()
-    {
-        return service.getAllBook();
+    public ResponseEntity<List<BookResponse>> getAllBooks() {
+        List<BookResponse> response = service.getAllBook();
+        return ResponseEntity.ok(response);
     }
     @DeleteMapping
     public void deleteBook(@RequestBody Book book)
     {
-         service.deleteBook(book);
+
+        service.deleteBook(book);
     }
     @PutMapping
     public void updateBook(@RequestBody Book book)
