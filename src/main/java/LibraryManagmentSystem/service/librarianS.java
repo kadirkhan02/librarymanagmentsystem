@@ -4,28 +4,28 @@ import LibraryManagmentSystem.DTO.BookRequest;
 import LibraryManagmentSystem.DTO.BookResponse;
 import LibraryManagmentSystem.model.Book;
 import LibraryManagmentSystem.repo.Bookrepo;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 @Service
+@RequiredArgsConstructor
 public class librarianS {
 
     @Autowired
     Book book;
-
-    @Autowired
-    Bookrepo bookrepo;
+    private final Bookrepo bookrepo;
+    private final ModelMapper mp;
     List<Book> l=new ArrayList<>();
 
 
     public void addBook(BookRequest bookRequest) {
 
         Book book=new Book();
-        book.setBookname(bookRequest.getBookname());
-        book.setTitle(bookRequest.getTitle());
-        book.setAvailable(bookRequest.isAvailable());
 
+        mp.map(bookRequest,book);
         bookrepo.save(book);
 
     }
