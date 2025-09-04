@@ -5,10 +5,12 @@ import LibraryManagmentSystem.DTO.BookResponse;
 import LibraryManagmentSystem.model.Book;
 import LibraryManagmentSystem.service.librarianS;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -19,30 +21,34 @@ public class librarianC {
     librarianS service;
 
     @PostMapping
-    public ResponseEntity<String> addBook(@RequestBody BookRequest bookReq){
-        service.addBook(bookReq);
-        return ResponseEntity.ok("Successfully Posted");
+    public ResponseEntity<BookResponse> addBook(@RequestBody BookRequest bookReq){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.addBook(bookReq));
     }
     @GetMapping
     public ResponseEntity<List<BookResponse>> getAllBooks() {
         List<BookResponse> response = service.getAllBook();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     @DeleteMapping
-    public void deleteBook(@RequestBody Book book)
+    public ResponseEntity<String> deleteBook(@RequestBody BookRequest book)
     {
 
         service.deleteBook(book);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted book");
     }
     @PutMapping
-    public void updateBook(@RequestBody Book book)
+    public ResponseEntity<BookResponse> updateBook(@RequestBody BookRequest book)
     {
-        service.updateBook(book);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.updateBook(book));
     }
     @GetMapping("/{bookId}")
-    public Book searchbyId(@PathVariable int bookId)
+    public ResponseEntity<BookResponse> searchbyId(@PathVariable int bookId)
     {
-        return service.searchbyId(bookId);
+
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(service.searchbyId(bookId));
     }
 
 

@@ -21,12 +21,11 @@ public class librarianS {
     List<Book> l=new ArrayList<>();
 
 
-    public void addBook(BookRequest bookRequest) {
+    public BookResponse addBook(BookRequest bookRequest) {
 
-        Book book=new Book();
-
-        mp.map(bookRequest,book);
+        Book book=mp.map(bookRequest, Book.class);
         bookrepo.save(book);
+        return mp.map(book,BookResponse.class);
 
     }
 
@@ -46,15 +45,23 @@ public class librarianS {
     }
 
 
-    public void deleteBook(Book book) {
-       bookrepo.delete(book);
+    public void deleteBook(BookRequest book) {
+
+        Book b=mp.map(book,Book.class);
+        bookrepo.delete(b);
     }
 
-    public void updateBook(Book book) {
-        bookrepo.save(book);
+    public BookResponse updateBook(BookRequest book) {
+
+        Book b=mp.map(book, Book.class);
+        bookrepo.save(b);
+        return mp.map(b, BookResponse.class);
     }
 
-    public Book searchbyId(int bookId) {
-        return bookrepo.getReferenceById(bookId);
+    public BookResponse searchbyId(int bookId) {
+
+        Book book1=bookrepo.getReferenceById(bookId);
+        BookResponse bookResponse= mp.map(book1, BookResponse.class);
+        return bookResponse;
     }
 }
