@@ -4,6 +4,7 @@ import LibraryManagmentSystem.DTO.BookRequest;
 import LibraryManagmentSystem.DTO.BookResponse;
 import LibraryManagmentSystem.model.Book;
 import LibraryManagmentSystem.service.librarianS;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -21,7 +22,7 @@ public class librarianC {
     librarianS service;
 
     @PostMapping
-    public ResponseEntity<BookResponse> addBook(@RequestBody BookRequest bookReq){
+    public ResponseEntity<BookResponse> addBook(@RequestBody @Valid BookRequest bookReq){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.addBook(bookReq));
     }
@@ -37,18 +38,19 @@ public class librarianC {
         service.deleteBook(book);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Deleted book");
     }
-    @PutMapping
-    public ResponseEntity<BookResponse> updateBook(@RequestBody BookRequest book)
+    @PutMapping("/{bookId}")
+    public ResponseEntity<BookResponse> updateBook(@PathVariable int bookId,@RequestBody BookRequest book)
     {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.updateBook(book));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.updateBook(bookId,
+                book));
     }
     @GetMapping("/{bookId}")
     public ResponseEntity<BookResponse> searchbyId(@PathVariable int bookId)
     {
 
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(service.searchbyId(bookId));
+        return ResponseEntity.status(HttpStatus.OK).body(service.searchbyId(bookId));
     }
 
 

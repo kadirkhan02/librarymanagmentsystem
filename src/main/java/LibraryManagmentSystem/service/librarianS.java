@@ -51,11 +51,14 @@ public class librarianS {
         bookrepo.delete(b);
     }
 
-    public BookResponse updateBook(BookRequest book) {
+    public BookResponse updateBook(int bookid,BookRequest book) {
 
-        Book b=mp.map(book, Book.class);
-        bookrepo.save(b);
-        return mp.map(b, BookResponse.class);
+        Book existingBook = bookrepo.findById(bookid)
+                .orElseThrow(() -> new RuntimeException("Book not found with id: " + bookid));
+        mp.map(book, existingBook);
+        Book updatedBook = bookrepo.save(existingBook);
+        bookrepo.save(updatedBook);
+        return mp.map(updatedBook, BookResponse.class);
     }
 
     public BookResponse searchbyId(int bookId) {
